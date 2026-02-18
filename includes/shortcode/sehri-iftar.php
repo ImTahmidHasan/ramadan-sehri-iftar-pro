@@ -21,7 +21,7 @@ function rsip_render_widget($atts) {
             <p class="rsip-meta"><?php echo date('d F, Y'); ?> | Ramadan Day: <?php echo esc_html($today_data['ramadan_day'] ?? '—'); ?></p>
             
             <form method="GET" class="rsip-dist-form">
-                <select name="rsip_dist" onchange="this.form.submit()">
+                <select name="rsip_dist" onchange="window.location.href='?rsip_dist=' + this.value;">
                     <?php foreach($districts as $d): ?>
                         <option value="<?php echo $d; ?>" <?php selected($selected_district, $d); ?>><?php echo $d; ?></option>
                     <?php endforeach; ?>

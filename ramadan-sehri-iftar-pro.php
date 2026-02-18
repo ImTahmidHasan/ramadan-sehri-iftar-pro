@@ -6,7 +6,7 @@
  * Author: Senior WordPress Developer
  * Text Domain: rsip-ramadan
  */
-
+date_default_timezone_set('Asia/Dhaka');
 if (!defined('ABSPATH')) exit;
 
 // Define Constants

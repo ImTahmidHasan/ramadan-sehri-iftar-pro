@@ -6,7 +6,8 @@ class RSIP_Data_Handler {
         $calendar = get_option("rsip_calendar_{$district}");
         $today = date('Y-m-d');
         
-        if ($calendar) {
+        // Check if manual data exists and has entries
+        if (!empty($calendar) && is_array($calendar)) {
             foreach ($calendar as $index => $day) {
                 if ($day['date'] === $today) {
                     $day['ramadan_day'] = $index + 1;
@@ -15,7 +16,7 @@ class RSIP_Data_Handler {
             }
         }
         
-        // Fallback to Aladhan API
+        // If no manual data for today, FORCE API fallback
         return RSIP_API::fetch_times($district);
     }
 
