@@ -75,3 +75,47 @@ function rsip_render_widget($atts) {
     </div>
     <?php return ob_get_clean();
 }
+
+// New Shortcode for Homepage (Countdown + Boxes Only)
+add_shortcode('ramadan_countdown', 'rsip_render_homepage_widget');
+
+function rsip_render_homepage_widget($atts) {
+    wp_enqueue_style('rsip-style');
+    wp_enqueue_script('rsip-countdown');
+
+    $atts = shortcode_atts(['district' => 'Dhaka'], $atts);
+    $selected_district = isset($_GET['rsip_dist']) ? sanitize_text_field($_GET['rsip_dist']) : $atts['district'];
+    
+    $today_data = RSIP_Data_Handler::get_today_data($selected_district);
+
+    ob_start(); ?>
+    <div class="rsip-card rsip-lite">
+        <div class="rsip-header-lite">
+            <strong><?php echo esc_html($selected_district); ?></strong> | 
+            Ramadan Day: <?php echo esc_html($today_data['ramadan_day'] ?? '—'); ?>
+        </div>
+
+        <div class="rsip-countdown">
+            <p id="rsip-label">Loading...</p>
+            <div id="rsip-timer" 
+                 data-sehri="<?php echo esc_attr($today_data['sehri']); ?>" 
+                 data-iftar="<?php echo esc_attr($today_data['iftar']); ?>">
+                 00:00:00
+            </div>
+        </div>
+
+        <div class="rsip-times">
+            <div class="rsip-box sehri">
+                <span>Sehri End</span>
+                <strong><?php echo esc_html($today_data['sehri']); ?></strong>
+            </div>
+            <div class="rsip-box iftar">
+                <span>Iftar Start</span>
+                <strong><?php echo esc_html($today_data['iftar']); ?></strong>
+            </div>
+        </div>
+        
+        <a href="<?php echo site_url('/full-schedule'); ?>" class="rsip-view-more">View Full Calendar →</a>
+    </div>
+    <?php return ob_get_clean();
+}

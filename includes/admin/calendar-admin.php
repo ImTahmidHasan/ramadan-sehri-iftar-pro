@@ -20,26 +20,34 @@ function rsip_admin_page_html() {
 
     // Handle CSV Upload
     if (isset($_POST['rsip_upload_csv']) && check_admin_referer('rsip_csv_upload_nonce')) {
-        $district = sanitize_text_field($_POST['district_name']);
-        if (!empty($_FILES['csv_file']['tmp_name'])) {
-            $handle = fopen($_FILES['csv_file']['tmp_name'], 'r');
-            $data_array = [];
-            fgetcsv($handle); // Skip header
+    $district = sanitize_text_field($_POST['district_name']);
+    if (!empty($_FILES['csv_file']['tmp_name'])) {
+        $handle = fopen($_FILES['csv_file']['tmp_name'], 'r');
+        $data_array = [];
+        
+        // Skip the header row
+        fgetcsv($handle); 
 
-            while (($row = fgetcsv($handle)) !== FALSE) {
-                if (count($row) >= 3) {
-                    $data_array[] = [
-                        'date'  => sanitize_text_field($row[0]),
-                        'sehri' => sanitize_text_field($row[1]),
-                        'iftar' => sanitize_text_field($row[2])
-                    ];
-                }
+        while (($row = fgetcsv($handle)) !== FALSE) {
+            // Trim whitespace and validate column count
+            if (count($row) >= 3) {
+                $data_array[] = [
+                    'date'  => trim($row[0]), // Expected: 2026-03-02
+                    'sehri' => trim($row[1]), 
+                    'iftar' => trim($row[2])
+                ];
             }
-            fclose($handle);
+        }
+        fclose($handle);
+
+        if (!empty($data_array)) {
             update_option("rsip_calendar_{$district}", $data_array);
-            echo '<div class="updated"><p>Calendar updated for ' . esc_html($district) . '!</p></div>';
+            echo '<div class="updated"><p>✅ Success! Saved ' . count($data_array) . ' days for ' . esc_html($district) . '.</p></div>';
+        } else {
+            echo '<div class="error"><p>❌ Error: No valid data found in CSV. Check your format.</p></div>';
         }
     }
+}
 
     $districts = ['Dhaka', 'Gazipur', 'Narayanganj', 'Chattogram', 'Cox’s Bazar', 'Sylhet', 'Rajshahi', 'Khulna', 'Barishal', 'Rangpur', 'Mymensingh', 'Cumilla', 'Bogura', 'Dinajpur'];
     ?>
