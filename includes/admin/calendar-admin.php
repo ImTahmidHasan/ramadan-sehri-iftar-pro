@@ -10,8 +10,8 @@ add_action('admin_menu', 'rsip_add_admin_menu');
 
 function rsip_add_admin_menu() {
     add_menu_page(
-        __('Ramadan Settings', 'ramadan_timer'),
-        __('Ramadan', 'ramadan_timer'),
+        __('Ramadan Settings', 'ramadan-timer'),
+        __('Ramadan', 'ramadan-timer'),
         'manage_options',
         'rsip-settings',
         'rsip_admin_page_html',
@@ -32,7 +32,7 @@ function rsip_admin_page_html() {
             $file_info = wp_check_filetype(basename($_FILES['csv_file']['name']));
             
             if ($file_info['ext'] !== 'csv') {
-                echo '<div class="error"><p>' . esc_html__('❌ Error: Please upload a valid CSV file.', 'ramadan_timer') . '</p></div>';
+                echo '<div class="error"><p>' . esc_html__('❌ Error: Please upload a valid CSV file.', 'ramadan-timer') . '</p></div>';
             } else {
                 $handle = fopen($file, 'r');
                 $data_array = [];
@@ -51,9 +51,9 @@ function rsip_admin_page_html() {
 
                 if (!empty($data_array)) {
                     update_option("rsip_calendar_{$district}", $data_array);
-                    echo '<div class="updated"><p>✅ ' . sprintf(esc_html__('Success! Saved %d days for %s.', 'ramadan_timer'), count($data_array), esc_html($district)) . '</p></div>';
+                    echo '<div class="updated"><p>✅ ' . sprintf(esc_html__('Success! Saved %d days for %s.', 'ramadan-timer'), count($data_array), esc_html($district)) . '</p></div>';
                 } else {
-                    echo '<div class="error"><p>' . esc_html__('❌ Error: No valid data found in CSV. Check your format.', 'ramadan_timer') . '</p></div>';
+                    echo '<div class="error"><p>' . esc_html__('❌ Error: No valid data found in CSV. Check your format.', 'ramadan-timer') . '</p></div>';
                 }
             }
         }
@@ -62,26 +62,28 @@ function rsip_admin_page_html() {
     $districts = ['Dhaka', 'Gazipur', 'Narayanganj', 'Chattogram', 'Cox’s Bazar', 'Sylhet', 'Rajshahi', 'Khulna', 'Barishal', 'Rangpur', 'Mymensingh', 'Cumilla', 'Bogura', 'Dinajpur'];
     ?>
     <div class="wrap">
-        <h1>🌙 <?php esc_html_e('Ramadan Timer - Management', 'ramadan_timer'); ?></h1>
+        <h1>🌙 <?php esc_html_e('Ramadan Timer - Management', 'ramadan-timer'); ?></h1>
         
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 20px;">
             
             <div class="card" style="padding: 20px; margin: 0;">
-                <h2 style="border-bottom: 2px solid #1b5e20; padding-bottom: 10px;"><?php esc_html_e('1. Data Upload', 'ramadan_timer'); ?></h2>
+                <h2 style="border-bottom: 2px solid #1b5e20; padding-bottom: 10px;"><?php esc_html_e('1. Data Upload', 'ramadan-timer'); ?></h2>
                 <form method="post" enctype="multipart/form-data">
                     <?php wp_nonce_field('rsip_csv_upload_nonce'); ?>
-                    <p><strong><?php esc_html_e('Select District:', 'ramadan_timer'); ?></strong></p>
-                    <select name="district_name" style="width: 100%; margin-bottom: 15px;">
-                        <?php foreach($districts as $d) echo "<option value='".esc_attr($d)."'>".esc_html($d)."</option>"; ?>
-                    </select>
-                    <p><strong><?php esc_html_e('Choose CSV:', 'ramadan_timer'); ?></strong></p>
+                    <p><strong><?php esc_html_e('Select District:', 'ramadan-timer'); ?></strong></p>
+                    <div style="margin-bottom: 15px;">
+                        <select name="district_name" style="width: 100%;">
+                            <?php foreach($districts as $d) echo "<option value='".esc_attr($d)."'>".esc_html($d)."</option>"; ?>
+                        </select>
+                    </div>
+                    <p><strong><?php esc_html_e('Choose CSV:', 'ramadan-timer'); ?></strong></p>
                     <input type="file" name="csv_file" accept=".csv" required style="margin-bottom: 15px;">
-                    <?php submit_button(__('Upload & Overwrite', 'ramadan_timer'), 'primary', 'rsip_upload_csv'); ?>
+                    <?php submit_button(__('Upload & Overwrite', 'ramadan-timer'), 'primary', 'rsip_upload_csv'); ?>
                 </form>
             </div>
 
             <div class="card" style="padding: 20px; margin: 0;">
-                <h2 style="border-bottom: 2px solid #1b5e20; padding-bottom: 10px;"><?php esc_html_e('2. District Status', 'ramadan_timer'); ?></h2>
+                <h2 style="border-bottom: 2px solid #1b5e20; padding-bottom: 10px;"><?php esc_html_e('2. District Status', 'ramadan-timer'); ?></h2>
                 <div style="">
                     <ul style="list-style: none; padding: 0;">
                         <?php foreach($districts as $d): 
@@ -99,21 +101,21 @@ function rsip_admin_page_html() {
             </div>
 
             <div class="card" style="padding: 20px; margin: 0; background: #f1f8e9;">
-                <h2 style="border-bottom: 2px solid #1b5e20; padding-bottom: 10px;"><?php esc_html_e('3. Documentation', 'ramadan_timer'); ?></h2>
+                <h2 style="border-bottom: 2px solid #1b5e20; padding-bottom: 10px;"><?php esc_html_e('3. Documentation', 'ramadan-timer'); ?></h2>
                 
-                <h3>📄 <?php esc_html_e('Shortcodes', 'ramadan_timer'); ?></h3>
-                <p><strong><?php esc_html_e('Main Widget (With Table):', 'ramadan_timer'); ?></strong><br>
+                <h3>📄 <?php esc_html_e('Shortcodes', 'ramadan-timer'); ?></h3>
+                <p><strong><?php esc_html_e('Main Widget (With Table):', 'ramadan-timer'); ?></strong><br>
                 <code>[ramadan_timer]</code></p>
                 
-                <p><strong><?php esc_html_e('Homepage (Countdown Only):', 'ramadan_timer'); ?></strong><br>
+                <p><strong><?php esc_html_e('Homepage (Countdown Only):', 'ramadan-timer'); ?></strong><br>
                 <code>[ramadan_countdown]</code></p>
 
-                <p><strong><?php esc_html_e('Force District:', 'ramadan_timer'); ?></strong><br>
+                <p><strong><?php esc_html_e('Force District:', 'ramadan-timer'); ?></strong><br>
                 <code>[ramadan_countdown district="Chattogram"]</code></p>
 
                 <hr>
 
-                <h3>📅 <?php esc_html_e('CSV Sample Structure', 'ramadan_timer'); ?></h3>
+                <h3>📅 <?php esc_html_e('CSV Sample Structure', 'ramadan-timer'); ?></h3>
                 <table style="width: 100%; background: #fff; border: 1px solid #ddd; font-size: 11px;">
                     <thead><tr><th>date</th><th>sehri</th><th>iftar</th></tr></thead>
                     <tbody>
@@ -121,7 +123,7 @@ function rsip_admin_page_html() {
                         <tr><td>2026-03-03</td><td>05:03</td><td>18:03</td></tr>
                     </tbody>
                 </table>
-                <p style="font-size: 11px; color: #666;"><?php esc_html_e('Note: Ensure date is YYYY-MM-DD.', 'ramadan_timer'); ?></p>
+                <p style="font-size: 11px; color: #666;"><?php esc_html_e('Note: Ensure date is YYYY-MM-DD.', 'ramadan-timer'); ?></p>
             </div>
 
         </div>

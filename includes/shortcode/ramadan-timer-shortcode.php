@@ -41,7 +41,9 @@ function rsip_render_widget($atts) {
 
             <div class="rsip-countdown">
                 <p class="rsip-status-label">Calculating...</p>
-                <div class="rsip-timer-display" data-sehri="<?php echo $today_data['sehri']; ?>" data-iftar="<?php echo $today_data['iftar']; ?>">00:00:00</div>
+                <div class="rsip-timer-display" 
+                    data-sehri="<?php echo esc_attr($today_data['sehri']); ?>" 
+                    data-iftar="<?php echo esc_attr($today_data['iftar']); ?>">00:00:00</div>
             </div>
             
             <div class="rsip-duas">

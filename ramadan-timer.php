@@ -2,11 +2,14 @@
 /**
  * Plugin Name: Ramadan Timer
  * Description: Official Bangladesh Ramadan Schedule with CSV upload and Real-time Countdown.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Tahmid Hasan
- * Text Domain: ramadan_timer
+ * License: GPLv2 or later
+ * Text Domain: ramadan-timer
  */
+
 if (!defined('ABSPATH')) exit;
+
 date_default_timezone_set('Asia/Dhaka');
 
 // Define Constants
@@ -20,14 +23,14 @@ require_once RSIP_PATH . 'includes/data/calendar-handler.php';
 require_once RSIP_PATH . 'includes/api/aladhan-api.php';
 require_once RSIP_PATH . 'includes/shortcode/ramadan-timer-shortcode.php';
 
-// Asset Enqueuing (Only when shortcode is present)
+// Asset Enqueuing
 add_action('wp_enqueue_scripts', 'rsip_register_assets');
 function rsip_register_assets() {
-    wp_register_style('rsip-style', RSIP_URL . 'assets/css/style.css', [], '1.1.0');
-    wp_register_script('rsip-countdown', RSIP_URL . 'assets/js/countdown.js', ['jquery'], '1.1.0', true);
+    wp_register_style('rsip-style', RSIP_URL . 'assets/css/style.css', [], RSIP_VERSION);
+    wp_register_script('rsip-countdown', RSIP_URL . 'assets/js/countdown.js', ['jquery'], RSIP_VERSION, true);
 }
 
-// Plugin Activation: Set default district
+// Plugin Activation
 register_activation_hook(__FILE__, 'rsip_on_activation');
 function rsip_on_activation() {
     if (!get_option('rsip_default_district')) {
@@ -35,7 +38,7 @@ function rsip_on_activation() {
     }
 }
 // Load Textdomain
-add_action('init', 'rsip_load_textdomain');
-function rsip_load_textdomain() {
-    load_plugin_textdomain('ramadan_timer', false, dirname(plugin_basename(__FILE__)) . '/languages');
-}
+// add_action('init', 'rsip_load_textdomain');
+// function rsip_load_textdomain() {
+//     load_plugin_textdomain('ramadan_timer', false, dirname(plugin_basename(__FILE__)) . '/languages');
+// }
