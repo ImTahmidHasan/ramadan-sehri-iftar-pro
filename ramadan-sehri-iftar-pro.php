@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) exit;
 date_default_timezone_set('Asia/Dhaka');
 
 // Define Constants
+define('RSIP_VERSION', '1.2.0');
 define('RSIP_PATH', plugin_dir_path(__FILE__));
 define('RSIP_URL', plugin_dir_url(__FILE__));
 
@@ -32,4 +33,9 @@ function rsip_on_activation() {
     if (!get_option('rsip_default_district')) {
         update_option('rsip_default_district', 'Dhaka');
     }
+}
+// Load Textdomain
+add_action('init', 'rsip_load_textdomain');
+function rsip_load_textdomain() {
+    load_plugin_textdomain('rsip-ramadan', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }

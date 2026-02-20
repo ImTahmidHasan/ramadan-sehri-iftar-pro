@@ -15,7 +15,7 @@ function rsip_render_widget($atts) {
     $districts = ['Dhaka', 'Gazipur', 'Narayanganj', 'Chattogram', 'Cox’s Bazar', 'Sylhet', 'Rajshahi', 'Khulna', 'Barishal', 'Rangpur', 'Mymensingh', 'Cumilla', 'Bogura', 'Dinajpur'];
 
     ob_start(); ?>
-    <div class="rsip-container">
+    <div class="rsip-container rsip-widget-instance">
         <div class="rsip-card">
             <h2 class="rsip-title">🌙 Ramadan Schedule 2026</h2>
             <p class="rsip-meta"><?php echo date('d F, Y'); ?> | Ramadan Day: <?php echo esc_html($today_data['ramadan_day'] ?? '—'); ?></p>
@@ -31,17 +31,17 @@ function rsip_render_widget($atts) {
             <div class="rsip-times">
                 <div class="rsip-box sehri">
                     <span>Sehri End</span>
-                    <strong><?php echo esc_html($today_data['sehri']); ?></strong>
+                    <strong><?php echo esc_html($today_data['sehri']); ?> AM</strong>
                 </div>
                 <div class="rsip-box iftar">
                     <span>Iftar Start</span>
-                    <strong><?php echo esc_html($today_data['iftar']); ?></strong>
+                    <strong><?php echo esc_html($today_data['iftar']); ?> PM</strong>
                 </div>
             </div>
 
             <div class="rsip-countdown">
-                <p id="rsip-label">Calculating...</p>
-                <div id="rsip-timer" data-sehri="<?php echo $today_data['sehri']; ?>" data-iftar="<?php echo $today_data['iftar']; ?>">00:00:00</div>
+                <p class="rsip-status-label">Calculating...</p>
+                <div class="rsip-timer-display" data-sehri="<?php echo $today_data['sehri']; ?>" data-iftar="<?php echo $today_data['iftar']; ?>">00:00:00</div>
             </div>
             
             <div class="rsip-duas">
@@ -76,7 +76,6 @@ function rsip_render_widget($atts) {
     <?php return ob_get_clean();
 }
 
-// New Shortcode for Homepage (Countdown + Boxes Only)
 add_shortcode('ramadan_countdown', 'rsip_render_homepage_widget');
 
 function rsip_render_homepage_widget($atts) {
@@ -89,15 +88,15 @@ function rsip_render_homepage_widget($atts) {
     $today_data = RSIP_Data_Handler::get_today_data($selected_district);
 
     ob_start(); ?>
-    <div class="rsip-card rsip-lite">
+    <div class="rsip-card rsip-lite rsip-widget-instance">
         <div class="rsip-header-lite">
             <strong><?php echo esc_html($selected_district); ?></strong> | 
             Ramadan Day: <?php echo esc_html($today_data['ramadan_day'] ?? '—'); ?>
         </div>
 
         <div class="rsip-countdown">
-            <p id="rsip-label">Loading...</p>
-            <div id="rsip-timer" 
+            <p class="rsip-status-label">Loading...</p>
+            <div class="rsip-timer-display" 
                  data-sehri="<?php echo esc_attr($today_data['sehri']); ?>" 
                  data-iftar="<?php echo esc_attr($today_data['iftar']); ?>">
                  00:00:00
@@ -107,15 +106,13 @@ function rsip_render_homepage_widget($atts) {
         <div class="rsip-times">
             <div class="rsip-box sehri">
                 <span>Sehri End</span>
-                <strong><?php echo esc_html($today_data['sehri']); ?></strong>
+                <strong><?php echo esc_html($today_data['sehri']); ?> AM</strong>
             </div>
             <div class="rsip-box iftar">
                 <span>Iftar Start</span>
-                <strong><?php echo esc_html($today_data['iftar']); ?></strong>
+                <strong><?php echo esc_html($today_data['iftar']); ?> PM</strong>
             </div>
         </div>
-        
-        <a href="<?php echo site_url('/full-schedule'); ?>" class="rsip-view-more">View Full Calendar →</a>
     </div>
     <?php return ob_get_clean();
 }
