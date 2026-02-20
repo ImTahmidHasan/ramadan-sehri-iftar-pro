@@ -1,5 +1,5 @@
-=== Ramadan Sehri Iftar Pro ===
-Contributors: yourusername
+=== Ramadan Timer ===
+Contributors: Tahmid Hasan
 Tags: ramadan, prayer times, bangladesh, sehri, iftar
 Requires at least: 5.0
 Tested up to: 6.4
@@ -14,4 +14,4 @@ Accurate Sehri and Iftar timings for Bangladesh based on Islamic Foundation. Sup
 == Installation ==
 1. Upload to /wp-content/plugins/
 2. Activate.
-3. Use [sehri_iftar_pro] or [ramadan_countdown].
+3. Use [ramadan_timer] or [ramadan_countdown].

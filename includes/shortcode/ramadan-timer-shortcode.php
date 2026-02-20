@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) exit;
 
-add_shortcode('sehri_iftar_pro', 'rsip_render_widget');
+add_shortcode('ramadan_timer', 'rsip_render_widget');
 
 function rsip_render_widget($atts) {
     wp_enqueue_style('rsip-style');
